@@ -17,7 +17,7 @@ class Conn
      */
     public static function sqlite3()
 	{  
-        $conn = new SQLite3('hub.sqlite');
+        $conn = new SQLite3(SQLITE_DB_NAME);
     	if (!$conn) die('Deu errado a conexao!');
 
     	return $conn;

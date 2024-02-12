@@ -27,16 +27,16 @@ Class UserModel{
     public static function addUser($name, $email, $password)
     {
         $conn = Conn::sqlite3();
-        $sql = "INSERT INTO user(name, email, password, role)VALUES ('{$name}', '{$email}', '{$password}',  'user')";
+        $sql = "INSERT INTO user(name, email, password, profile_img, role) VALUES ('{$name}', '{$email}', '{$password}', ' ', 'user')";
         $result = $conn->query($sql);
         if(!$result) { die('Error while INSERT user'); }
         return "User Successfuly INSERTED!";
     }
 
-    public static function editUser($id, $name, $email)
+    public static function editUser($id, $name, $email, $password, $profile_img)
     {
         $conn = Conn::sqlite3();
-        $sql = "UPDATE user SET name = '{$name}', email = '{$email}' WHERE id = {$id}";
+        $sql = "UPDATE user SET name = '{$name}', email = '{$email}', password = '{$password}', profile_img = '{$profile_img}' WHERE id = {$id}";
         $result = $conn->query($sql);
         if(!$result){
             die("Error while UPDATE user");
@@ -73,4 +73,14 @@ Class UserModel{
         return $user;
     }
 
+    public static function editUserProfileImage($id, $profile_img)
+    {
+        $conn = Conn::sqlite3();
+        $sql = "UPDATE user SET profile_img = '{$profile_img}' WHERE id = {$id}";
+        $result = $conn->query($sql);
+        if(!$result){
+            die("Error while UPDATE user profile");
+        }
+        return "User Successfuly UPDATED!";
+    }
 }

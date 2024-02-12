@@ -47,6 +47,11 @@ class Alert
         echo $html;
         }
     }
+
+    public static function jsCaution($text)
+    {
+        echo "<script>alert('{$text}');</script>";
+    }
 }
 
 Alert::alertInit();

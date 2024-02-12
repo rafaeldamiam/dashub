@@ -14,19 +14,9 @@ Class SiteModel{
         return $site;
     }
 
-    public static function showSiteById($id){
-        $conn = Conn::sqlite3();
-        $sql = "SELECT s.title AS sitetitle, s.logo AS sitelogo, s.url AS siteurl, s.description AS sitedescription, s.dt_insert, u.name AS username, t.nickname AS tagnickname, t.name AS tagname FROM site s, user u, tag t WHERE s.id_owner = u.id AND s.id_tag = t.id AND s.id = {$id}";
-        $result = $conn->query($sql);
-        while($col = $result->fetchArray(SQLITE3_ASSOC)){
-            $site = $col;
-        }
-        return $site;
-    }
-
     public static function takeSiteById($id){
         $conn = Conn::sqlite3();
-        $sql = "SELECT s.title AS sitetitle, s.logo AS sitelogo, s.url AS siteurl, s.description AS sitedescription, t.nickname AS tagnickname, t.name AS tagname FROM site s, tag t WHERE s.id_tag = t.id AND s.id = {$id}";
+        $sql = "SELECT * FROM site WHERE id = {$id}";
         $result = $conn->query($sql);
         while($col = $result->fetchArray(SQLITE3_ASSOC)){
             $site = $col;
@@ -34,19 +24,30 @@ Class SiteModel{
         return $site;
     }
 
-    public static function addSite($name, $email, $password)
-    {
+    public static function takeSiteLogoById($id){
         $conn = Conn::sqlite3();
-        $sql = "INSERT INTO site(name, email, password, role)VALUES ('{$name}', '{$email}', '{$password}',  'site')";
+        $sql = "SELECT logo FROM site WHERE id = {$id}";
+        $result = $conn->query($sql);
+        while($col = $result->fetchArray(SQLITE3_ASSOC)){
+            $site = $col;
+        }
+        return $site;
+    }
+
+    public static function addSite($title, $url, $description)
+    {
+        $dt_now = date('Y-m-d');
+        $conn = Conn::sqlite3();
+        $sql = "INSERT INTO site(title, url, description, logo, id_tag, dt_insert, id_owner) VALUES ('{$title}', '{$url}', '{$description}', ' ', '1', '{$dt_now}' , '{$_SESSION['access']['id']}')";
         $result = $conn->query($sql);
         if(!$result) { die('Error while INSERT site'); }
         return "site Successfuly INSERTED!";
     }
 
-    public static function editSite($id, $name, $email)
+    public static function editSite($id, $title, $url, $description, $logo)
     {
         $conn = Conn::sqlite3();
-        $sql = "UPDATE site SET name = '{$name}', email = '{$email}' WHERE id = {$id}";
+        $sql = "UPDATE site SET title = '{$title}', url = '{$url}', description = '{$description}', logo = '{$logo}' WHERE id = {$id}";
         $result = $conn->query($sql);
         if(!$result){
             die("Error while UPDATE site");
@@ -59,9 +60,38 @@ Class SiteModel{
         $conn = Conn::sqlite3();
         $sql = "DELETE FROM site WHERE id = {$id}";
         $result = $conn->query($sql);
-        if(!$result){die("Erro while DELETE site");}
+        if(!$result)
+        {
+            die("Erro while DELETE site");
+        }
+        if($_SESSION["access"]["id"] == $id)
+        {
+            redirectView("login/logout");
+        }
         
         return "site Successfuly DELETED!";
     }
 
+    public static function takesiteByUrlDescription($url, $description)
+    {
+        $conn = Conn::sqlite3();
+        $sql = "SELECT * FROM site WHERE url = '{$url}' AND description = '{$description}'";
+        $result = $conn->query($sql);
+        while ($col = $result->fetchArray(SQLITE3_ASSOC))
+        {
+            $site = $col;
+        }
+        return $site;
+    }
+
+    public static function editSiteLogo($id, $profile_img)
+    {
+        $conn = Conn::sqlite3();
+        $sql = "UPDATE site SET logo = '{$profile_img}' WHERE id = {$id}";
+        $result = $conn->query($sql);
+        if(!$result){
+            die("Error while UPDATE site profile");
+        }
+        return "site Successfuly UPDATED!";
+    }
 }

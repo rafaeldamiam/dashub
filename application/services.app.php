@@ -127,26 +127,25 @@ class Services
         return $arrayEdited;
     }
 
-    public static function checkImage($target_file, $size, $tmp_name )
+    public static function sanitizeImage($size, $tmp_name)
     {
-        if (file_exists($target_file)) {
-          echo "Sorry, file already exists.";
-          $uploadOk = 0;
-        }
+        $iniUMF = intval(ini_get('upload_max_filesize')) * 10000;
+        $iniPMS = intval(ini_get('post_max_size')) * 10000;
 
-        if ($_FILES["fileToUpload"]["size"] > 500000) {
-          echo "Sorry, your file is too large.";
-          $uploadOk = 0;
+        if ($size > $iniUMF && $size > $iniPMS) {
+            Alert::jsCaution("Sorry, your file is too large! Image default will be add.");
+            $imageState = False;
         }
 
         $check = getimagesize($tmp_name);
         if($check !== false) {
-            echo "File is an image - " . $check["mime"] . ".";
-            $uploadOk = 1;
+            $imageState = True;
         } else {
-            echo "File is not an image.";
-            $uploadOk = 0;
+            Alert::jsCaution("File is not an image! Image default will be add.");
+            $imageState = False;
         }
+
+        return $imageState;
 
     }
 }

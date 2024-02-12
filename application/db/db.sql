@@ -1,17 +1,29 @@
+DROP DATABASE hub;
+CREATE DATABASE hub;
+USE hub;
+
+SELECT * FROM USER
+DROP TABLE USER
+
 CREATE TABLE user(
 	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-	registration INTEGER NOT NULL,
 	name VARCHAR(100) NOT NULL,
 	password VARCHAR(100) NOT NULL,
 	email VARCHAR(100) NOT NULL UNIQUE,
+	profile_img VARCHAR(100) NOT NULL,
 	--roles: 'user', 'admin' and 'anon' for users that are not logged
 	role VARCHAR(100) NOT NULL
 );
 
-INSERT INTO user(name,registration,email,password,role)
+INSERT INTO user(name,email,password,profile_img,role)
 VALUES
-("admin","11111","admin@admin.com","123","admin"),
-("user","11111","user@user.com","123","user");
+("admin","admin@admin.com","123","public/assets/user.png","admin"),
+("user","user@user.com","123","public/assets/user.png", "user");
+
+
+-----------------------------------------------------------
+SELECT * FROM tag
+DROP TABLE tag
 
 CREATE TABLE tag(
 	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -23,6 +35,10 @@ INSERT INTO tag(nickname,name)
 VALUES
 ("CPD", "Centro de Processamento de Dados"),
 ("SUP", "Suprimentos");
+
+-----------------------------------------------------------
+SELECT * FROM site
+DROP TABLE site
 
 CREATE TABLE site(
   id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -41,5 +57,23 @@ CREATE TABLE site(
 
 INSERT INTO site(title, logo, url, description, dt_insert, id_owner, id_tag) 
 VALUES
-("Totvs Zendesk", "assets/images/totvs.png", "https://totvs.fluigidentity.com/" ,"Site de criação de chamados, analise de produto e suporte técnico", DateTime('now'), 1, 1),
-("GLPI", "assets/images/totvs.png", "http://glpi.vistalegre.local/glpi/" ,"Site de criação de chamados internos, controle de dispositivos de TI", DateTime('now'), 1, 1);
+("Totvs Zendesk", "public/assets/site.png", "https://totvs.fluigidentity.com/" ,"Site de criação de chamados, analise de produto e suporte técnico", DateTime('now'), 1, 1),
+("GLPI", "public/assets/site.png", "http://glpi.vistalegre.local/glpi/" ,"Site de criação de chamados internos, controle de dispositivos de TI", DateTime('now'), 1, 1);
+
+
+
+--------------------------------------------------------------------
+SELECT * FROM user WHERE email = 'admin@admin.com' AND password = '123'
+
+SELECT * FROM site WHERE id = 1
+
+UPDATE site
+SET url = 'http://glpi.vistalegre.local/glpi/'
+where id = 2
+
+
+
+SELECT s.title, s.description, u.name, t.nickname, t.name 
+FROM site s, user u, tag t
+WHERE s.id_owner = u.id 
+AND s.id_tag = t.id

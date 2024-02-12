@@ -1,11 +1,14 @@
 <?php
 
+require_once "model/site.model.php";
+
 /* CONTROLADOR
  * funçao: controlar as páginas estáticas (páginas sem acesso ao modelo)  */
 
 /** anon */
 function index() {
-   View::showView("app/index");
+   $data["sites"] = SiteModel::takeAllSites();
+   View::showView("app/index", $data);
 }
 
 /** anon */

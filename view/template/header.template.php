@@ -31,7 +31,7 @@
           <a class="nav-link" href='<?=URL_BASE."user/"?>'>Users</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href='<?=URL_BASE."site/"?>'>Site</a>
+          <a class="nav-link" href='<?=URL_BASE."site/"?>'>Sites</a>
         </li>
         
     </div>

@@ -3,9 +3,9 @@
 <table class="table">
     <thead>
         <tr>
-            <th>image</th>
+            <th>profile</th>
             <th>name</th>
-            <th>description</th>
+            <th>email</th>
             <th>show</th>
             <th>edit</th>
             <th>delete</th>
@@ -13,7 +13,7 @@
     </thead>
     <?php foreach ($sites as $site): ?>
     <tr>
-        <td><a target="_blank" href="<?=$site['url']?>"><img width="20%" src="<?=URL_BASE.$site['logo']?>"></a></td>
+        <td><a href="<?=$site['url']?>" target="_blank"><img width="20%" src="<?=URL_BASE.$site['logo']?>"></a></td>
         <td><?=$site['title']?></td>
         <td><?=$site['description']?></td>
         <td><a href="<?=URL_BASE.'site/show/'.$site['id']?>" class="btn btn-secondary">show</a></td>
@@ -24,4 +24,3 @@
 </table>
 
 <a href="<?=URL_BASE.'site/add/'?>" class="btn btn-primary">Add New site</a>
-

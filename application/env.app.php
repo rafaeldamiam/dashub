@@ -12,7 +12,7 @@ define('MAIN_CONTROLLER', 'app');
 //URL_BASE TAKE AUTOMATICALLY
 define('URL_BASE', Services::urlBase());
 //define('ACCESS', true);
-define('APP_NAME', "PASlite");
+define('APP_NAME', "dashub");
 /*
  * This constant define which name will be on the title page
  * Position 1 -> Application Name
@@ -22,5 +22,9 @@ define('APP_NAME', "PASlite");
  * While the user keep in the main page (without pass through a controller) it will just show the application name
  */
 define('TITLE_POSITION', APP_POSITION);
-//PUBLIC UPLOAD FOLDER
-define('UPLOAD_LOCATION', 'dashub/public/assets/uploads/site/' );
+//SQLITE db name
+define('SQLITE_DB_NAME', 'dashub.sqlite');
+//PUBLIC INPUT (UPLOAD) FOLDER 
+define('UPLOAD_LOCATION', 'public/input' );
+//APP Version
+define('APP_VERSION', '1.1' );
